@@ -1,0 +1,82 @@
+<html>
+  <head></head>
+  <body>
+    <select id="multi-filter" multiple>
+      <option value="apple">Apple</option>
+      <option value="banana">Banana</option>
+      <option value="orange">Orange</option>
+    </select>
+
+    <div id="data-container"></div>
+
+    <script>
+      var data = [
+        {
+          name: "Red Apple",
+          color: "red",
+          type: "apple",
+          price: 1.99,
+        },
+        {
+          name: "Green Apple",
+          color: "green",
+          type: "apple",
+          price: 1.49,
+        },
+        {
+          name: "Banana",
+          color: "yellow",
+          type: "banana",
+          price: 0.79,
+        },
+        {
+          name: "Orange",
+          color: "orange",
+          type: "orange",
+          price: 0.99,
+        },
+      ];
+
+      // Jamespath multi-filter function
+      function multiFilter(json, filters) {
+        var result = json;
+        filters.forEach(function (filter) {
+          result = result.filter(function (item) {
+            return item.type == filter;
+          });
+        });
+        return result;
+      }
+
+      // Event listener for multi-filter dropdown
+      var multiFilterDropdown = document.getElementById("multi-filter");
+      multiFilterDropdown.addEventListener("change", function () {
+        var filters = Array.from(multiFilterDropdown.selectedOptions).map(
+          function (option) {
+            return option.value;
+          }
+        );
+        var filteredData = multiFilter(data, filters);
+        var dataContainer = document.getElementById("data-container");
+        dataContainer.innerHTML = "";
+        filteredData.forEach(function (item) {
+          var div = document.createElement("div");
+          div.innerHTML =
+            "<p>Name: " +
+            item.name +
+            "</p>" +
+            "<p>Color: " +
+            item.color +
+            "</p>" +
+            "<p>Type: " +
+            item.type +
+            "</p>" +
+            "<p>Price: $" +
+            item.price +
+            "</p>";
+          dataContainer.appendChild(div);
+        });
+      });
+    </script>
+  </body>
+</html>
